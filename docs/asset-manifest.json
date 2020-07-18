@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/static/css/main.0ebb2236.chunk.css",
+    "main.js": "/static/js/main.c36b2bd1.chunk.js",
+    "main.js.map": "/static/js/main.c36b2bd1.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.2fac2b11.js",
+    "runtime-main.js.map": "/static/js/runtime-main.2fac2b11.js.map",
+    "static/css/2.b80acae6.chunk.css": "/static/css/2.b80acae6.chunk.css",
+    "static/js/2.c729fa32.chunk.js": "/static/js/2.c729fa32.chunk.js",
+    "static/js/2.c729fa32.chunk.js.map": "/static/js/2.c729fa32.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.134e7646637ac9be93e43691add936cc.js": "/precache-manifest.134e7646637ac9be93e43691add936cc.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.b80acae6.chunk.css.map": "/static/css/2.b80acae6.chunk.css.map",
+    "static/css/main.0ebb2236.chunk.css.map": "/static/css/main.0ebb2236.chunk.css.map",
+    "static/js/2.c729fa32.chunk.js.LICENSE.txt": "/static/js/2.c729fa32.chunk.js.LICENSE.txt",
+    "static/media/fontello.css": "/static/media/fontello.f7263268.eot"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.2fac2b11.js",
+    "static/css/2.b80acae6.chunk.css",
+    "static/js/2.c729fa32.chunk.js",
+    "static/css/main.0ebb2236.chunk.css",
+    "static/js/main.c36b2bd1.chunk.js"
+  ]
+}
