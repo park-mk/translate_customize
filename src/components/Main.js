@@ -29,7 +29,7 @@ const Right = styled.div`
 `;
 
 export default function(props) {
-    console.log(props,"that")
+    
     return (
         <Main>
             <Left>

@@ -201,7 +201,7 @@ export async function getSubFromVttUrl(url) {
                     const start = secondToTime(item.startTime);
                     const end = secondToTime(item.endTime);
                     const text = item.text;
-                    const text2= "wow";
+                    const text2= item.text2;
                     return new Sub(start, end, text,text2);
                 }),
             );

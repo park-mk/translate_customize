@@ -14,6 +14,7 @@ const Player = styled.div`
 
 export default React.memo(
     function({ options, setPlayer, setCurrentTime }) {
+      
         return (
             <Player>
                 <ArtplayerComponent

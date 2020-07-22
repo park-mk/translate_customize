@@ -1,3 +1,5 @@
+
+
 export default class Storage {
     constructor() {
         this.name = 'subplayer_settings';

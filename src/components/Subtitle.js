@@ -161,7 +161,7 @@ export default function({
                
                 headerRowRenderer={() => null}
                 rowRenderer={props => {
-                    console.log(props,"th");
+                   
                     return (
                         <div
                             key={props.key}
@@ -182,16 +182,7 @@ export default function({
                             }}
                         >
                             <div className="row operation" style={{ width: 30 }}>
-                                <i
-                                    className="icon-trash-empty"
-                                    onClick={() => removeSubtitle(props.rowData)}
-                                    style={{ marginBottom: 5 }}
-                                ></i>
-                                <i
                                
-                                    style={{ marginBottom: 15 }}
-                                ></i>
-                                <i className="icon-plus" onClick={() => addSubtitle(props.index + 1)}></i>
                             </div>
                             <div className="row time" style={{ width: 150 }} onMouseUp={onMouseUp}>
                                 <div
@@ -215,13 +206,8 @@ export default function({
                             </div>
                             <div className="row text" style={{ flex: 1 }}>
                                 
-                                <textarea
-                                    maxLength={200}
-                                    spellCheck={false}
-                                    className="textarea1"
-                                    value={unescape(props.rowData.text)}
-                                    onChange={event => updateSubtitle(props.rowData, 'text', event.target.value)}
-                                />
+                            
+                                <p>{props.rowData.text}</p>
                             </div>
                             
                             <div className="row text" style={{ flex: 1 }}>
