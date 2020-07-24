@@ -216,8 +216,8 @@ export default function({
                                     maxLength={200}
                                     spellCheck={false}
                                     className="textarea"
-                                    value={unescape(props.rowData.text2)}
-                                    onChange={event => updateSubtitle(props.rowData, 'text2', event.target.value)}
+                                    value={unescape(props.rowData.text)}
+                                    onChange={event => updateSubtitle(props.rowData, 'text', event.target.value)}
                                 
                                 />
                             </div>
