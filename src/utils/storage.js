@@ -1,11 +1,14 @@
-
-
+import { BrowserRouter  as Router, Switch, Route  ,useParams, useLocation } from "react-router-dom"; 
 export default class Storage {
+    
     constructor() {
-        this.name = 'subplayer_';
+        this.name = window.location.pathname;
     }
+    
 
     get(key) {
+      
+       
         const storage = JSON.parse(window.localStorage.getItem(this.name)) || {};
         return key ? storage[key] : storage;
     }
