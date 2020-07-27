@@ -18,7 +18,7 @@ export default React.memo(
 
 
 
-    function({ options, setPlayer, setCurrentTime ,firevideo}) {
+    function({ options, setPlayer, setCurrentTime , setOption}) {
 
         let location = useLocation();
 
@@ -33,7 +33,7 @@ export default React.memo(
                         height: '100%',
                     }}
                     option={{
-                        url:firevideo||options.videoUrl ,
+                        url:options.videoUrl ,
                         // options.videoUrl,
                         //firevideo,
                         loop: true,
@@ -65,10 +65,10 @@ export default React.memo(
                         mutex: true,
                     }}
                     getInstance={art => {
-                        console.log(art)
+                       
                         art.url="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                          
-                        fetch(`${databaseURL}/video${location.pathname.substring(0,location.pathname.length)}/url.json`).then(res =>{
+                        fetch(`${databaseURL}/video${location.pathname.substring(0,location.pathname.length)}.json`).then(res =>{
                             if (res.status!=200){
                                 throw new Error (res.statusText)
                             }
@@ -76,8 +76,13 @@ export default React.memo(
                         } 
                         ).then(words=>{ 
                             
-                             console.log(words,"fufufufufck")
-                             art.url=words;
+                             console.log(words.url,"fufufufufck")
+                             art.url=words.url;
+                           
+                             art.subtitle.switch( words.vtt);
+                           
+                             let  vtturl=words.vtt
+                             //setOption({  vtturl});
                              setPlayer(art);
 
                              (function loop() {

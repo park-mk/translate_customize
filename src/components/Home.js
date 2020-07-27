@@ -15,7 +15,7 @@ import translate, { googleTranslate } from '../translate';
 import { t, setLocale } from 'react-i18nify';
 import ReactDOM from 'react-dom';
 import { BrowserRouter  as Router, Switch, Route  ,useParams, useLocation } from "react-router-dom"; 
-
+import { getVtt, vttToUrl } from '../subtitle';
 import { words } from 'lodash';
 
 
@@ -75,28 +75,7 @@ export default function() {
     });
     // firebase
    
-    const  url=  geturl();
-
-   const [firevideo,setvideoo]=useState( 
-       
-      url
-   );
-
-   function geturl(){
-  fetch(`${databaseURL}/video/0001/url.json`).then(res =>{
-          if (res.status!=200){
-              throw new Error (res.statusText)
-          }
-          return res.json();
-      } 
-      ).then(words=>{ 
-           setvideoo(words);
-         
-                       
-        } , );
-
-  }
-  
+   
     
 
 
@@ -110,9 +89,9 @@ export default function() {
         [setLanguage],
     );
 
-    // Update an option
+    // Update an option many time
     const setOption = useCallback(
-       
+      
         option => {
             setOptions({
                 ...options,
@@ -123,9 +102,10 @@ export default function() {
         [options, setOptions],
     );
       
-    // Only way to update all subtitles
+    // Only way to update all subtitles ss every time update
     const updateSubtitles = useCallback(
         (subs, saveToHistory = true) => {
+         
             if (subs.length && !isEqual(subs, subtitles)) {
                 setSubtitles(subs);
 
@@ -149,13 +129,48 @@ export default function() {
 
     // Initialize subtitles from url or storage
     const initSubtitles = useCallback(async () => {
-   
+        console.log("sinit");
         const storageSubs = storage.get('subtitles');
         if (storageSubs && storageSubs.length) {
-            updateSubtitles(storageSubs.map(item => new Sub(item.start, item.end, item.text,item.text2)));
+        
+            console.log(storageSubs.length)
+            updateSubtitles(storageSubs.map(item => new Sub(item.start, item.end,  item.text,item.text2)));
         } else {
-            const subs = await getSubFromVttUrl(options.subtitleUrl);
-            updateSubtitles(subs);
+            fetch(`${databaseURL}/video${location.pathname.substring(0,location.pathname.length)}.json`).then(res =>{
+                if (res.status!=200){
+                    throw new Error (res.statusText)
+                }
+                return res.json();
+            } 
+            ).then( async words=>{ 
+                 
+                
+                    NProgress.start().set(0.5);
+                    try {
+                        const vttText = await getVtt(words.vtt);
+                        if (vttText) {
+                            const subtitleUrl = vttToUrl(vttText);
+                            updateSubtitles(await getSubFromVttUrl(subtitleUrl));
+                         
+                            setOption({ subtitleUrl, uploadDialog: false });
+                            notify(t('open-subtitle-success'));
+                        } else {
+                            notify(t('open-subtitle-error'), 'error');
+                            console.log(options.subtitleUrl,"빠라??");
+                        }
+                    } catch (error) {
+                        notify(error.message, 'error');
+                        console.log(options.subtitleUrl,"빠라잉");
+                    }
+                    NProgress.done();
+                
+             
+             
+        
+              } , );
+            
+            //  const subs =  await getSubFromVttUrl("gs://subtitle-8b238.appspot.com/sample.vtt" );
+             // updateSubtitles(subs);
         }
     }, [options.subtitleUrl, setSubtitles]);
 
@@ -169,7 +184,7 @@ export default function() {
     // Run only once
     useEffect(() => {
         initSubtitles();
-        openVideo();
+      
       
         updateLang(language);
         if (player && !worker.onmessage) {
@@ -182,34 +197,7 @@ export default function() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [player]);
 
-   const  openVideo =useCallback( ()=>{
-       var file;
-        if (file) {
-   
-        file="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4"
-            NProgress.start().set(0.5);
-            if (typeof file === 'string') {
-                console.log("shut up")
-               player.url = file;
-                // setPlayer({url:file})
-                setOption({ videoUrl: file, uploadDialog: false });
-                notify(t('open-video-success'));
-            } else {
-                const $video = document.createElement('video');
-                const canPlayType = $video.canPlayType(file.type);
-                if (canPlayType === 'maybe' || canPlayType === 'probably') {
-                    const videoUrl = URL.createObjectURL(file);
-                    player.url = videoUrl;
-                    setOption({ videoUrl: videoUrl, uploadDialog: false });
-                    notify(t('open-video-success'));
-                } else {
-                    notify(t('open-video-error'), 'error');
-                }
-            }
-            NProgress.done();
-        }
-    },
-   [subtitles,setOption],);
+ 
 
     // Update current index from current time
     useMemo(() => {
@@ -409,7 +397,7 @@ export default function() {
         currentTime,
         currentIndex,
         refe_subtitles,
-         firevideo,
+        
         setOption,
         setPlayer,
         setCurrentTime,

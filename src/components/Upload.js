@@ -74,6 +74,8 @@ const Upload = styled.div`
 
 export default function({ player, options, setOption, updateSubtitles }) {
     async function openSubtitle(file) {
+
+          file ="https://firebasestorage.googleapis.com/v0/b/subtitle-8b238.appspot.com/o/sample.vtt?alt=media&token=7f6b7593-d538-4320-8dbf-f257d0e617de"
         if (file) {
             NProgress.start().set(0.5);
             try {

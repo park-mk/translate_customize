@@ -2,7 +2,7 @@
 
 export default class Storage {
     constructor() {
-        this.name = 'subplayer_settings';
+        this.name = 'subplayer_';
     }
 
     get(key) {

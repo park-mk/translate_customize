@@ -189,12 +189,15 @@ export function srtToVtt(srt) {
 }
 
 export async function getSubFromVttUrl(url) {
+   
     return new Promise(resolve => {
         const $video = document.createElement('video');
         const $track = document.createElement('track');
+      
         $track.default = true;
         $track.kind = 'metadata';
         $video.appendChild($track);
+      
         $track.onload = () => {
             resolve(
                 Array.from($track.track.cues).map(item => {
@@ -206,6 +209,9 @@ export async function getSubFromVttUrl(url) {
                 }),
             );
         };
+     
         $track.src = url;
+      
     });
+
 }

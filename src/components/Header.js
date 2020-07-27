@@ -136,9 +136,10 @@ export default function(props) {
                         </I18n>*/}
             </Right>
             {props.options.uploadDialog ? (
-               
-                    <Upload {...props} />
-               
+                 <Dialog title={t('open')} onClose={() => props.setOption({ uploadDialog: false })}>
+
+                 <Upload {...props} />
+             </Dialog>
             ) : null}
             {props.options.helpDialog ? (
                 <Dialog title={t('help')} onClose={() => props.setOption({ helpDialog: false })}>
