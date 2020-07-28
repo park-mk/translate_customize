@@ -19,5 +19,5 @@ const firebaseConfig = {
 
   const fstorage = firebase.storage();
 
-  export {fstorage ,firebase as default };
+  export default firebase;
 

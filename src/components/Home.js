@@ -41,6 +41,7 @@ export default function() {
     // Language
     const defaultLang = storage.get('language') || navigator.language.toLowerCase() || 'en';
     const [language, setLanguage] = useState(defaultLang);
+    const [note, setNote] = useState("비어있음");
 
     // Subtitle currently playing index
     const [currentIndex, setCurrentIndex] = useState(-1);
@@ -88,6 +89,15 @@ export default function() {
         },
         [setLanguage],
     );
+    const updateNote = useCallback(
+        value => {
+           
+            setNote(value);
+           
+        },
+        [setNote],
+    );
+
 
     // Update an option many time
     const setOption = useCallback(
@@ -131,9 +141,11 @@ export default function() {
     const initSubtitles = useCallback(async () => {
         console.log("sinit");
         const storageSubs = storage.get('subtitles');
+        const storageNotes = storage.get('notes');
         if (storageSubs && storageSubs.length) {
         
             console.log(storageSubs.length)
+            updateNote(storageNotes);
             updateSubtitles(storageSubs.map(item => new Sub(item.start, item.end,  item.text,item.text2)));
         } else {
             fetch(`${databaseURL}/video${location.pathname.substring(0,location.pathname.length)}.json`).then(res =>{
@@ -144,7 +156,8 @@ export default function() {
             } 
             ).then( async words=>{ 
                  
-                
+                    updateNote(words.note);
+                    storage.set('notes',words.note);
                     NProgress.start().set(0.5);
                     try {
                         const vttText = await getVtt(words.vtt);
@@ -397,6 +410,7 @@ export default function() {
         currentTime,
         currentIndex,
         refe_subtitles,
+        note,
         
         setOption,
         setPlayer,

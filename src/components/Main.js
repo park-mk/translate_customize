@@ -33,8 +33,9 @@ export default function(props) {
     return (
         <Main>
             <Left>
+                 <Tool {...props} />
                 <Player {...props} />
-                <Tool {...props} />
+              
             </Left>
             <Right>
                 <Subtitle {...props} />

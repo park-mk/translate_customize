@@ -8,6 +8,10 @@ import Dialog from './Dialog';
 import { downloadFile } from '../utils';
 import { vttToUrl, subToVtt } from '../subtitle';
 import { t, Translate } from 'react-i18nify';
+import Storage from '../utils/storage';
+
+
+const storage = new Storage();
 
 const Header = styled.div`
     position: relative;
@@ -92,35 +96,28 @@ const I18n = styled.div`
     }
 `;
 
+
+
 export default function(props) {
     return (
         <Header>
             <Left>
-                <Logo href="/">
+                <Logo onClick={()=>  storage.clean()}>
                     <i className="icon-cc"></i>
                 </Logo>
-                <Menu onClick={() => props.setOption({ uploadDialog: true })}>
+                {/* <Menu onClick={() => props.setOption({ uploadDialog: true })}>
                     <i className="icon-upload"></i>
                     <Translate value="open" />
-                </Menu>
-                <Menu onClick={() => downloadFile(vttToUrl(subToVtt(props.subtitles)), `${Date.now()}.vtt`)}>
-                    <i className="icon-download"></i>
-                    <Translate value="save" />
+                </Menu> */}
+                <Menu onClick={() => downloadFile(vttToUrl(subToVtt(props.subtitles)))}>
+                    <i className="icon-upload"></i>
+                    <Translate value="제출" />
                 </Menu>
                 <Menu onClick={() => props.undoSubtitles()}>
                     <i className="icon-ccw"></i>
-                    <Translate value="undo" />
+                    <Translate value="복구" />
                 </Menu>
-                <Menu
-                    onClick={() => {
-                        if (window.confirm(t('clear-warning'))) {
-                            props.cleanSubtitles();
-                        }
-                    }}
-                >
-                    <i className="icon-trash-empty"></i>
-                    <Translate value="clear" />
-                </Menu>
+               
               
             </Left>
             <Right>

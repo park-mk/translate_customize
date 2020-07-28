@@ -67,7 +67,7 @@ export default React.memo(
                     getInstance={art => {
                        
                         art.url="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-                         
+                          console.log(`${databaseURL}/video${location.pathname.substring(0,location.pathname.length)}.json`,"compare")
                         fetch(`${databaseURL}/video${location.pathname.substring(0,location.pathname.length)}.json`).then(res =>{
                             if (res.status!=200){
                                 throw new Error (res.statusText)

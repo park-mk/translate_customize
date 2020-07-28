@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import languages from '../translate/languages';
 import { Translate } from 'react-i18nify';
+import { BrowserRouter  as Router, Switch, Route  ,useParams, useLocation } from "react-router-dom"; 
 
 const Tool = styled.div`
     flex: 1;
@@ -12,7 +13,7 @@ const Tool = styled.div`
 
     .item {
         display: flex;
-        align-items: center;
+       
         padding: 5px 10px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.4);
 
@@ -46,46 +47,48 @@ const Tool = styled.div`
         }
     }
 `;
+const databaseURL="https://subtitle-8b238.firebaseio.com/";
 
-export default function({ language, options, setOption, translateSubtitles, timeOffsetSubtitles }) {
+export function getNote() {
+    let aware=" 노트";
+   console.log(`${databaseURL}/video${window.location.pathname}.json`,"check");
+    fetch(`${databaseURL}/video${window.location.pathname}.json`).then(res =>{
+        if (res.status!=200){
+            throw new Error (res.statusText)
+        }
+        return res.json();
+    } 
+    ).then( async words=>{ 
+        
+           
+            console.log(words.name,"조심");
+            aware=words.name;
+            return words.name;
+       
+      } , );
+
+      return  aware;
+ }
+
+
+export default function({note}) { 
+
+
+  
+  
+
+    
+
     return (
         <Tool>
         
-        {/*    <div className="item">
-          <div className="title">
-                   <Translate value="google-translate" />
-                </div>
-                <div className="value">
-                    <select
-                        value={options.translationLanguage}
-                        onChange={event => setOption({ translationLanguage: event.target.value })}
-                    >
-                        {(languages[language] || languages.en).map(item => (
-                            <option key={item.key} value={item.key}>
-                                {item.name}
-                            </option>
-                        ))}
-                        
-                    </select>
-                    <button onClick={() => translateSubtitles()}>
-                        
-                        <Translate value="confirm" />
-                    </button>
-                </div>
-                       
-                        </div>*/}
+    
             <div className="item">
                 <div className="title">
-                    <Translate value="time-offset" />
+                   <p>단어장 및 주의 사항</p>
+                    <p>{note}</p>
                 </div>
-                {/*
-                <div className="value">
-                    <button onClick={() => timeOffsetSubtitles(-0.1)}>-100ms</button>
-                    <button onClick={() => timeOffsetSubtitles(0.1)}>+100ms</button>
-                    <button onClick={() => timeOffsetSubtitles(-1)}>-1000ms</button>
-                    <button onClick={() => timeOffsetSubtitles(1)}>+1000ms</button>
-                </div>*/
-}
+             
             </div>
         </Tool>
     );
